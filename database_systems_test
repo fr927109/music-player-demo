@@ -1,7 +1,0 @@
-# Basic Python code example
-
-def main():
-    print("Hello, Database Systems!")
-
-if __name__ == "__main__":
-    main()
