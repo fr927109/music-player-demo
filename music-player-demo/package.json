@@ -1,0 +1,41 @@
+{
+  "name": "music-player-demo",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "vite"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "lucide-react": "^0.263.0",
+    "mysql2": "^3.15.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-easy-crop": "^5.5.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.17",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17",
+    "vite": "^5.0.0"
+  },
+  "description": "This is a minimal Vite + React scaffold created to run the single file `music_player_ui_mockup_auth_playlists_search.jsx` (renamed to `MusicPlayerMock.jsx`).",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fr927109/database_systems_phase4.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fr927109/database_systems_phase4/issues"
+  },
+  "homepage": "https://github.com/fr927109/database_systems_phase4#readme"
+}
