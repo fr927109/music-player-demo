@@ -3,12 +3,27 @@ from flask import Flask, request, jsonify, g
 from flask_cors import CORS
 import pymysql
 from datetime import datetime
+import re
 
 app = Flask(__name__)
-CORS(app, origins=[
-    "https://music-player-demo-omega.vercel.app",
-    "http://localhost:5173"
-], supports_credentials=True)
+
+# Allow all Vercel preview and production domains
+def is_allowed_origin(origin):
+    allowed_patterns = [
+        r'https://music-player-demo.*\.vercel\.app$',
+        r'http://localhost:\d+$'
+    ]
+    return any(re.match(pattern, origin) for pattern in allowed_patterns)
+
+@app.after_request
+def after_request(response):
+    origin = request.headers.get('Origin')
+    if origin and is_allowed_origin(origin):
+        response.headers['Access-Control-Allow-Origin'] = origin
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+    return response
 
 # Database configuration
 DB_CONFIG = {
