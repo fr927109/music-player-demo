@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import mysql.connector
+import pymysql
 from datetime import datetime
 
 app = Flask(__name__)
@@ -10,12 +10,13 @@ CORS(app, origins=[
     "http://localhost:5173"
 ])
 # MySQL connection
-db = mysql.connector.connect(
+db = pymysql.connect(
     host=os.getenv('MYSQLHOST', 'localhost'),
     port=int(os.getenv('MYSQLPORT', 3306)),
     user=os.getenv('MYSQLUSER', 'root'),
     password=os.getenv('MYSQLPASSWORD', 'MySecret123'),
-    database=os.getenv('MYSQLDATABASE', 'music_player_db')
+    database=os.getenv('MYSQLDATABASE', 'music_player_db'),
+    cursorclass=pymysql.cursors.DictCursor
 )
 
 # ============================================================================
@@ -36,7 +37,7 @@ def toggle_favorite_song():
         
         print(f"🌟 Toggle favorite - User: {user_id}, Song: {song_id}")
         
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         # Check if already favorited
         cursor.execute("""
@@ -83,7 +84,7 @@ def toggle_favorite_song():
 def get_favorite_songs(user_id):
     try:
         print(f"📋 Fetching favorite songs for user {user_id}")
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         cursor.execute("""
             SELECT 
@@ -121,7 +122,7 @@ def get_favorite_songs(user_id):
 def get_artists():
     try:
         print("📋 Fetching all artists")
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         cursor.execute("""
             SELECT * FROM Artists
@@ -144,7 +145,7 @@ def get_artists():
 def get_artist_details(artist_id):
     try:
         print(f"📋 Fetching details for artist {artist_id}")
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         # Get artist info
         cursor.execute("""
@@ -191,7 +192,7 @@ def get_artist_details(artist_id):
 def get_songs():
     try:
         print("📋 Fetching all songs")
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         cursor.execute("""
             SELECT 
@@ -222,7 +223,7 @@ def get_songs():
 def get_song_details(song_id):
     try:
         print(f"📋 Fetching details for song {song_id}")
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         cursor.execute("""
             SELECT 
@@ -261,7 +262,7 @@ def get_song_details(song_id):
 def get_playlists(user_id):
     try:
         print(f"📋 Fetching playlists for user {user_id}")
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         cursor.execute("""
             SELECT * FROM Playlists
@@ -285,7 +286,7 @@ def get_playlists(user_id):
 def get_playlist_details(playlist_id):
     try:
         print(f"📋 Fetching details for playlist {playlist_id}")
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         # Get playlist info
         cursor.execute("""
@@ -336,7 +337,7 @@ def create_playlist():
         
         print(f"🎵 Creating playlist - User: {user_id}, Name: {name}")
         
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         cursor.execute("""
             INSERT INTO Playlists (user_id, name, created_at)
@@ -364,7 +365,7 @@ def add_song_to_playlist():
         
         print(f"🎶 Adding song to playlist - Playlist: {playlist_id}, Song: {song_id}")
         
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         cursor.execute("""
             INSERT INTO Playlist_Songs (playlist_id, song_id)
@@ -392,7 +393,7 @@ def remove_song_from_playlist():
         
         print(f"🗑️ Removing song from playlist - Playlist: {playlist_id}, Song: {song_id}")
         
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         cursor.execute("""
             DELETE FROM Playlist_Songs
@@ -419,7 +420,7 @@ def delete_playlist():
         
         print(f"🗑️ Deleting playlist - Playlist: {playlist_id}")
         
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         # Remove all songs from the playlist
         cursor.execute("""
@@ -457,7 +458,7 @@ def search_users():
         if not query or len(query) < 2:
             return jsonify({'users': []})
         
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         cursor.execute("""
             SELECT 
@@ -483,7 +484,7 @@ def search_users():
 @app.route('/api/users/<int:user_id>/profile', methods=['GET'])
 def get_user_profile(user_id):
     try:
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         # Get user basic info
         cursor.execute("""
@@ -530,7 +531,7 @@ def get_user_profile(user_id):
 @app.route('/api/users/<int:user_id>/playlists', methods=['GET'])
 def get_user_playlists_public(user_id):
     try:
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         cursor.execute("""
             SELECT 
@@ -573,7 +574,7 @@ def update_user_profile(user_id):
         
         print(f"📝 Updating profile for user {user_id}: username={username}")
         
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
         
         # Check if username is already taken by another user
         cursor.execute("""
