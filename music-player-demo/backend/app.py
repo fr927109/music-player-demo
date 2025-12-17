@@ -6,9 +6,8 @@ from datetime import datetime
 
 app = Flask(__name__)
 CORS(app, origins=[
-    "https://music-player-demo.onrender.com",
-    "http://localhost:5173",
-    "https://*.vercel.app"
+    "https://music-player-demo-omega.vercel.app",
+    "http://localhost:5173"
 ], supports_credentials=True)
 
 # Database configuration
