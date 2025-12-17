@@ -226,9 +226,9 @@ def get_favorite_songs(user_id):
                 S.song_id,
                 S.title,
                 A.name as artist,
-                S.genre,
+                
                 CONCAT(FLOOR(S.duration / 60), ':', LPAD(S.duration % 60, 2, '0')) as duration,
-                S.release_year,
+                
                 FS.favorited_at
             FROM Favorite_Songs FS
             INNER JOIN Songs S ON FS.song_id = S.song_id
@@ -295,7 +295,7 @@ def get_artist_details(artist_id):
             SELECT 
                 S.song_id,
                 S.title,
-                S.genre,
+                
                 CONCAT(FLOOR(S.duration / 60), ':', LPAD(S.duration % 60, 2, '0')) as duration,
                 S.release_year
             FROM Songs S
@@ -334,7 +334,7 @@ def get_songs():
                 S.song_id,
                 S.title,
                 A.name as artist,
-                S.genre,
+                
                 CONCAT(FLOOR(S.duration / 60), ':', LPAD(S.duration % 60, 2, '0')) as duration,
                 S.release_year
             FROM Songs S
@@ -365,7 +365,7 @@ def get_song_details(song_id):
                 S.song_id,
                 S.title,
                 A.name as artist,
-                S.genre,
+                
                 S.lyrics,
                 S.duration,
                 S.release_year
@@ -437,7 +437,7 @@ def get_playlist_details(playlist_id):
                 S.song_id,
                 S.title,
                 A.name as artist,
-                S.genre,
+                
                 CONCAT(FLOOR(S.duration / 60), ':', LPAD(S.duration % 60, 2, '0')) as duration,
                 S.release_year
             FROM Playlist_Songs PS
