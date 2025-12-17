@@ -109,9 +109,12 @@ def signup():
         print(f"✅ Account created successfully: user_id={user_id}")
         
         return jsonify({
-            'user_id': user_id,
-            'username': username,
-            'email': email
+            'success': True,
+            'user': {
+                'user_id': user_id,
+                'username': username,
+                'email': email
+            }
         }), 201
         
     except Exception as e:
@@ -143,9 +146,12 @@ def login():
         print(f"✅ Login successful: user_id={user['user_id']}")
         
         return jsonify({
-            'user_id': user['user_id'],
-            'username': user['username'],
-            'email': user['email']
+            'success': True,
+            'user': {
+                'user_id': user['user_id'],
+                'username': user['username'],
+                'email': user['email']
+            }
         })
         
     except Exception as e:
