@@ -38,6 +38,15 @@ def close_db(error):
 # MUSIC PLAYER APPLICATION - BACKEND ROUTES
 # ============================================================================
 
+# Root route for health check
+@app.route('/')
+def index():
+    return jsonify({
+        "status": "online",
+        "message": "Music Player API is running",
+        "endpoints": ["/api/songs", "/api/users", "/api/playlists"]
+    })
+
 # ============================================================================
 # FAVORITES ROUTES
 # ============================================================================
