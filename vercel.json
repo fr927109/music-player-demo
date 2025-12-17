@@ -1,6 +1,0 @@
-{
-  "buildCommand": "cd music-player-demo && npm install && npm run build",
-  "outputDirectory": "music-player-demo/dist",
-  "installCommand": "cd music-player-demo && npm install",
-  "framework": "vite"
-}

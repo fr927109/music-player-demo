@@ -230,7 +230,7 @@ router.post('/auth/signup', async (req, res) => {
     const [result] = await pool.query(insertQuery, [email, finalUsername, password]);
     
     const newUserId = result.insertId;
-    console.log('✅ Backend: New user created with ID:', newUserId);
+    console.log('Backend: New user created with ID:', newUserId);
     
     // Create default playlists for new user
     const defaultPlaylists = [
@@ -287,7 +287,7 @@ router.post('/auth/signup', async (req, res) => {
         await pool.query(addSongQuery, [playlistId, playlist.songs[i], i + 1]);
       }
       
-      console.log(`✅ Backend: Created default playlist "${playlist.name}" (ID: ${playlistId}) for user ${newUserId}`);
+      console.log(`Backend: Created default playlist "${playlist.name}" (ID: ${playlistId}) for user ${newUserId}`);
     }
     
     res.status(201).json({
@@ -316,7 +316,7 @@ router.post('/auth/signup', async (req, res) => {
 router.get('/playlists/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
-    console.log('📋 Backend: Fetching playlists for user', userId);
+    console.log('Backend: Fetching playlists for user', userId);
     
     const query = `
       SELECT 
@@ -334,8 +334,8 @@ router.get('/playlists/:userId', async (req, res) => {
       ORDER BY p.created_at DESC
     `;
     const [playlists] = await pool.query(query, [userId]);
-    console.log('📋 Backend: Found', playlists.length, 'playlists');
-    console.log('📋 Backend: Playlists:', playlists);
+    console.log('Backend: Found', playlists.length, 'playlists');
+    console.log('Backend: Playlists:', playlists);
     res.json(playlists);
   } catch (error) {
     console.error('Error fetching playlists:', error);
@@ -422,7 +422,7 @@ router.post('/playlists', async (req, res) => {
       }
     }
     
-    console.log('📝 Backend: Creating playlist with ID:', nextId, 'for user', user_id);
+    console.log('Backend: Creating playlist with ID:', nextId, 'for user', user_id);
     
     // Insert playlist with specific ID
     const query = `
@@ -431,7 +431,7 @@ router.post('/playlists', async (req, res) => {
     `;
     await pool.query(query, [nextId, user_id, name, description || '', color_hex || '#a855f7']);
     
-    console.log('✅ Backend: Playlist created successfully with ID:', nextId);
+    console.log('Backend: Playlist created successfully with ID:', nextId);
     
     res.status(201).json({
       success: true,
@@ -482,7 +482,7 @@ router.post('/playlists/:playlistId/songs', async (req, res) => {
 router.delete('/playlists/:playlistId', async (req, res) => {
   try {
     const { playlistId } = req.params;
-    console.log('🗑️ Backend: Deleting playlist', playlistId);
+    console.log('Backend: Deleting playlist', playlistId);
     
     // First delete all songs from the playlist (due to foreign key constraint)
     const deleteSongsQuery = 'DELETE FROM Playlist_Songs WHERE playlist_id = ?';
@@ -496,7 +496,7 @@ router.delete('/playlists/:playlistId', async (req, res) => {
       return res.status(404).json({ error: 'Playlist not found' });
     }
     
-    console.log('✅ Backend: Playlist deleted successfully');
+    console.log('Backend: Playlist deleted successfully');
     res.json({
       success: true,
       message: 'Playlist deleted successfully'

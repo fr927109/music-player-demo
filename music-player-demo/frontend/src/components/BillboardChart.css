@@ -1,0 +1,68 @@
+.billboard-chart {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.billboard-chart h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #1a1a1a;
+}
+
+.chart-list {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.chart-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 8px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.chart-item:hover {
+  background-color: #f9f9f9;
+}
+
+.rank {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a1a;
+  min-width: 40px;
+  text-align: center;
+}
+
+.song-info {
+  flex: 1;
+  margin-left: 16px;
+}
+
+.song-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.song-artist {
+  font-size: 13px;
+  color: #666;
+}
+
+.chart-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 11px;
+  color: #999;
+  text-align: center;
+}
+
+.chart-stats span {
+  min-width: 30px;
+}

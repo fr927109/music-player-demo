@@ -436,7 +436,7 @@ export async function fetchBillboardTop10() {
  */
 export async function loadAppData(userId) {
   try {
-    console.log('🔍 API: Loading app data for user', userId);
+    console.log('API: Loading app data for user', userId);
     
     const [songs, artists, playlists] = await Promise.all([
       fetchSongs(),
@@ -444,8 +444,8 @@ export async function loadAppData(userId) {
       fetchUserPlaylists(userId)
     ]);
     
-    console.log('📦 API: Loaded', songs.length, 'songs,', artists.length, 'artists,', playlists.length, 'playlists');
-    console.log('📋 API: Playlists:', playlists);
+    console.log('API: Loaded', songs.length, 'songs,', artists.length, 'artists,', playlists.length, 'playlists');
+    console.log('API: Playlists:', playlists);
     
     return { songs, artists, playlists };
   } catch (error) {

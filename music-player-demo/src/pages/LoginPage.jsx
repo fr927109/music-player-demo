@@ -14,7 +14,7 @@ export default function LoginPage({ onLoginSuccess }) {
     
     if (authMode === "login") {
       try {
-        console.log('🔐 Attempting login for:', authEmail);
+        console.log('Attempting login for:', authEmail);
         const response = await loginUser(authEmail, authPassword);
         
         if (response.success && response.user) {
@@ -25,7 +25,7 @@ export default function LoginPage({ onLoginSuccess }) {
           localStorage.setItem('musicPlayerEmail', authEmail.toLowerCase());
           localStorage.setItem('musicPlayerAuthed', 'true');
           
-          console.log('✅ Login successful, User ID:', userId);
+          console.log('Login successful, User ID:', userId);
           onLoginSuccess(userId, authEmail);
         } else {
           setAuthError("No account found. Please create an account.");
@@ -36,7 +36,7 @@ export default function LoginPage({ onLoginSuccess }) {
       }
     } else {
       try {
-        console.log('📝 Creating account for:', authEmail);
+        console.log('Creating account for:', authEmail);
         const response = await signupUser(authEmail, authPassword);
         
         if (response.success && response.user) {
@@ -47,7 +47,7 @@ export default function LoginPage({ onLoginSuccess }) {
           localStorage.setItem('musicPlayerEmail', authEmail.toLowerCase());
           localStorage.setItem('musicPlayerAuthed', 'true');
           
-          console.log('✅ Account created successfully, User ID:', userId);
+          console.log('Account created successfully, User ID:', userId);
           onLoginSuccess(userId, authEmail);
         }
       } catch (error) {

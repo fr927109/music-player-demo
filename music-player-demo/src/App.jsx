@@ -33,7 +33,7 @@ export default function App() {
     localStorage.removeItem('musicPlayerUserId');
     localStorage.removeItem('musicPlayerEmail');
     localStorage.removeItem('musicPlayerAuthed');
-    console.log('🔓 Session cleared');
+    console.log('Session cleared');
     
     setCurrentUserId(null);
     setLoginEmail("");

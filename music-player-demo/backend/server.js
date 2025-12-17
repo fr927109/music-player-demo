@@ -9,6 +9,7 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import { testConnection } from './db.js';
 import routes from './routes.js';
+import billboardRoutes from './routes/billboard.js';
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.use((req, res, next) => {
 
 // API routes
 app.use('/api', routes);
+app.use('/api/billboard', billboardRoutes);
 
 // Root endpoint
 app.get('/', (req, res) => {
@@ -55,19 +57,6 @@ app.get('/', (req, res) => {
       health: '/api/health'
     }
   });
-});
-
-// Billboard Hot 100 Top 10 endpoint
-app.get('/api/billboard/top10', async (req, res) => {
-  try {
-    // Empty Billboard Hot 100 Top 10 - all songs removed
-    const billboardTop10 = [];
-
-    res.json({ success: true, songs: billboardTop10 });
-  } catch (error) {
-    console.error('Failed to fetch Billboard Top 10:', error);
-    res.status(500).json({ success: false, error: error.message });
-  }
 });
 
 // 404 handler
