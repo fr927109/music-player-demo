@@ -75,6 +75,84 @@ def index():
     })
 
 # ============================================================================
+# AUTHENTICATION ROUTES
+# ============================================================================
+
+@app.route('/api/auth/signup', methods=['POST'])
+def signup():
+    try:
+        data = request.json
+        email = data.get('email')
+        password = data.get('password')
+        username = email.split('@')[0]  # Use email prefix as default username
+        
+        print(f"📝 Creating account for: {email}")
+        
+        cursor = get_db().cursor()
+        
+        # Check if email already exists
+        cursor.execute("SELECT user_id FROM Users WHERE email = %s", (email,))
+        if cursor.fetchone():
+            cursor.close()
+            return jsonify({'error': 'Email already registered'}), 400
+        
+        # Insert new user (storing plain password - in production use hashing!)
+        cursor.execute("""
+            INSERT INTO Users (username, email, password, bio)
+            VALUES (%s, %s, %s, %s)
+        """, (username, email, password, ''))
+        
+        get_db().commit()
+        user_id = cursor.lastrowid
+        cursor.close()
+        
+        print(f"✅ Account created successfully: user_id={user_id}")
+        
+        return jsonify({
+            'user_id': user_id,
+            'username': username,
+            'email': email
+        }), 201
+        
+    except Exception as e:
+        print(f"Error during signup: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/auth/login', methods=['POST'])
+def login():
+    try:
+        data = request.json
+        email = data.get('email')
+        password = data.get('password')
+        
+        print(f"🔐 Login attempt for: {email}")
+        
+        cursor = get_db().cursor()
+        cursor.execute("""
+            SELECT user_id, username, email 
+            FROM Users 
+            WHERE email = %s AND password = %s
+        """, (email, password))
+        
+        user = cursor.fetchone()
+        cursor.close()
+        
+        if not user:
+            return jsonify({'error': 'Invalid email or password'}), 401
+        
+        print(f"✅ Login successful: user_id={user['user_id']}")
+        
+        return jsonify({
+            'user_id': user['user_id'],
+            'username': user['username'],
+            'email': user['email']
+        })
+        
+    except Exception as e:
+        print(f"Error during login: {e}")
+        return jsonify({'error': str(e)}), 500
+
+# ============================================================================
 # FAVORITES ROUTES
 # ============================================================================
 
