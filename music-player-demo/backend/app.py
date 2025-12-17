@@ -1,17 +1,21 @@
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import mysql.connector
 from datetime import datetime
 
 app = Flask(__name__)
-CORS(app)
-
+CORS(app, origins=[
+    "https://music-player-demo.onrender.com",
+    "http://localhost:5173"
+])
 # MySQL connection
 db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="MySecret123",  
-    database="music_player_db"
+    host=os.getenv('MYSQLHOST', 'localhost'),
+    port=int(os.getenv('MYSQLPORT', 3306)),
+    user=os.getenv('MYSQLUSER', 'root'),
+    password=os.getenv('MYSQLPASSWORD', 'MySecret123'),
+    database=os.getenv('MYSQLDATABASE', 'music_player_db')
 )
 
 # ============================================================================
@@ -604,3 +608,4 @@ def update_user_profile(user_id):
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
+
